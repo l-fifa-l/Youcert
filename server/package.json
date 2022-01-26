@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon -r esm server.js"
   },
-  "author": "",
+  "author": "Ashutosh Rai",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.935.0",
