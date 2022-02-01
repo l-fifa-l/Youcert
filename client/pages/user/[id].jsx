@@ -5,7 +5,11 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import UserInfo from '../../components/UserInfo';
 
-export default function User() {
+export default function User({ userData }) {
+  const router = useRouter();
+  const { user } = router.query;
+  console.log(userData);
+
   return (
     <div class="max-w-2xl mx-auto">
       <div class="px-3 py-2">
@@ -212,4 +216,14 @@ export default function User() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps({ query }) {
+  const { data } = await axios.get(`${process.env.API}/user/${query.user}`);
+  console.log(query);
+  return {
+    props: {
+      userData: data,
+    },
+  };
 }
