@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import Head from 'next/head';
 import {
   Flex,
   Box,
@@ -11,23 +12,57 @@ import {
   TabPanel,
   chakra,
   useColorModeValue,
-} from "@chakra-ui/react";
-import Navbar from "../../components/Navbar";
-import axios from "axios";
-import { useRouter } from "next/router";
+} from '@chakra-ui/react';
+import Navbar from '../../components/Navbar';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const Course = ({ courseData }) => {
-  // const [thisCourse, setThisCourse] = useState([]);
-
+  const [CompletedLessons, setCompletedLessons] = useState([]);
   const router = useRouter();
+  const { asPath, pathname } = useRouter();
+  router.asPath = '/learn/' + courseData.title;
+  router.pathname = '/learn/' + courseData.title;
+  router.route = '/learn/' + courseData.title;
+  router.query = { course: courseData.title };
+  console.log('router=>', router);
   const { course } = router.query;
-  // console.log(courseData);
+
+  console.log(asPath); // '/blog/xyz'
+  console.log(pathname); // '/blog/[slug]'
+
+  // mark course complete function
+  const complete = async () => {
+    const { data } = await axios.post(`/api/mark-completed`, {
+      courseId: course._id,
+    });
+    console.log(data);
+    setCompletedLessons([...completedLessons]);
+  };
+
+  // mark course incomplete function
+  const incomplete = async () => {
+    try {
+      const { data } = await axios.post(`/api/mark-incompleted`, {
+        courseId: course._id,
+      });
+      const all = completedLessons;
+      const index = all.indexOf(course.lessons[clicked]._id);
+      if (index > -1) {
+        all.splice(index, 1);
+        setCompletedLessons(all);
+        setUpdateState(!updateState);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <Navbar />
       <Flex
-        bg={useColorModeValue("#F9FAFB", "gray.600")}
+        bg={useColorModeValue('#F9FAFB', 'gray.600')}
         p={5}
         w="full"
         alignItems="center"
@@ -38,7 +73,7 @@ const Course = ({ courseData }) => {
           rounded="lg"
           // shadow="md"
           w="full"
-          bg={useColorModeValue("white", "gray.800")}
+          bg={useColorModeValue('white', 'gray.800')}
           maxW="2xl"
         >
           <AspectRatio rounded="lg" ratio={16 / 9}>
@@ -50,17 +85,17 @@ const Course = ({ courseData }) => {
               <chakra.span
                 fontSize="xs"
                 textTransform="uppercase"
-                color={useColorModeValue("brand.600", "brand.400")}
+                color={useColorModeValue('brand.600', 'brand.400')}
               >
                 Course
               </chakra.span>
               <Link
                 display="block"
-                color={useColorModeValue("gray.800", "white")}
+                color={useColorModeValue('gray.800', 'white')}
                 fontWeight="bold"
                 fontSize="2xl"
                 mt={2}
-                _hover={{ color: "gray.600", textDecor: "none" }}
+                _hover={{ color: 'gray.600', textDecor: 'none' }}
               >
                 {courseData.title}
               </Link>
@@ -71,7 +106,7 @@ const Course = ({ courseData }) => {
                 <Flex alignItems="center">
                   <Link
                     fontWeight="bold"
-                    color={useColorModeValue("gray.700", "gray.200")}
+                    color={useColorModeValue('gray.700', 'gray.200')}
                   >
                     By {courseData.author}
                   </Link>
@@ -79,10 +114,23 @@ const Course = ({ courseData }) => {
                 <chakra.span
                   mx={1}
                   fontSize="sm"
-                  color={useColorModeValue("gray.600", "gray.300")}
+                  color={useColorModeValue('gray.600', 'gray.300')}
                 >
                   11/11/21
                 </chakra.span>
+              </Flex>
+              <Flex>
+                <Box p="2" bg="red.400">
+                  <Button colorScheme="teal" mr="4">
+                    enroll me
+                  </Button>
+                </Box>
+                <Spacer />
+                <Box p="2" bg="green.400">
+                  <Button colorScheme="teal" mr="4">
+                    Complete & Claim Certificate
+                  </Button>
+                </Box>
               </Flex>
             </Box>
           </Box>
@@ -107,13 +155,12 @@ const Course = ({ courseData }) => {
   );
 };
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query, resolvedUrl }) {
   const { data } = await axios.get(`${process.env.API}/course/${query.course}`);
-  console.log(query);
+  resolvedUrl = data.title;
+  console.log('resolvedUrl', resolvedUrl);
   return {
-    props: {
-      courseData: data,
-    },
+    props: { courseData: data },
   };
 }
 

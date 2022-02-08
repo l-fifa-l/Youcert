@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import axios from "axios";
+import { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
 import {
   Box,
   FormControl,
@@ -17,20 +17,21 @@ import {
   Stack,
   Center,
   useColorModeValue,
-} from "@chakra-ui/react";
-import { Context } from "../../context";
-import { useRouter } from "next/router";
+} from '@chakra-ui/react';
+import { Context } from '../../context';
+import { useRouter } from 'next/router';
 
 export default function addCourse() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [title, setTitle] = useState("");
-  const [videoId, setVideoId] = useState("");
-  const [playlistId, setPlaylistId] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
-  const [creator, setCreator] = useState("");
-  const [description, setDiscription] = useState("");
-  const [tags, setTags] = useState("");
+  const [title, setTitle] = useState('');
+  const [videoId, setVideoId] = useState('');
+  const [playlistId, setPlaylistId] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
+  const [creator, setCreator] = useState('');
+  const [description, setDiscription] = useState('');
+  const [tags, setTags] = useState('');
+  const [slug, setSlug] = useState('');
 
   //state
   const {
@@ -50,7 +51,7 @@ export default function addCourse() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("adding course");
+    console.log('adding course');
     try {
       setLoading(true);
       const { data } = await axios.post(`/api/addcourse`, {
@@ -61,14 +62,9 @@ export default function addCourse() {
         creator,
         description,
         tags,
+        slug,
       });
-      // console.log("REGISTER RESPONSE", data);
-      // toast.success("Registration Successfull. Please Login.");
-      // setName("");
-      // setEmail("");
-      // setPassword("");
-      // setLoading(false);
-      router.push("/signin");
+      router.push('/signin');
     } catch (error) {
       setError(true);
       setLoading(false);
@@ -77,20 +73,20 @@ export default function addCourse() {
 
   return (
     <Box
-      minH={"100vh"}
+      minH={'100vh'}
       // width={"100%"}
       // align={"center"}
       // justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      bg={useColorModeValue('gray.50', 'gray.800')}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"70%"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Add a course</Heading>
+      <Stack spacing={8} mx={'auto'} maxW={'70%'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'}>Add a course</Heading>
         </Stack>
         <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
+          rounded={'lg'}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'lg'}
           p={8}
         >
           <Stack spacing={4}>
@@ -123,6 +119,17 @@ export default function addCourse() {
                   value={playlistId}
                   onChange={(e) => setPlaylistId(e.target.value)}
                   placeholder="Playlist Id"
+                />
+              </FormControl>
+
+              <FormControl id="Thumbnail">
+                <FormLabel>Enter slug</FormLabel>
+                <Input
+                  type="text"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  placeholder="Thumbnail"
+                  required
                 />
               </FormControl>
 
@@ -169,9 +176,9 @@ export default function addCourse() {
               </FormControl>
               <Stack pt={3} spacing={5}>
                 <Box
-                  direction={{ base: "column", sm: "row" }}
+                  direction={{ base: 'column', sm: 'row' }}
                   align="center"
-                  justify={"space-between"}
+                  justify={'space-between'}
                 ></Box>
 
                 {error && (
@@ -182,15 +189,15 @@ export default function addCourse() {
                 )}
 
                 <Button
-                  bg={"#7820c5"}
-                  color={"white"}
-                  type={"submit"}
+                  bg={'#7820c5'}
+                  color={'white'}
+                  type={'submit'}
                   disabled={!title || !description || loading}
                   _hover={{
-                    bg: "#5e199a",
+                    bg: '#5e199a',
                   }}
                 >
-                  {loading ? <Spinner /> : "ADD COURSE"}
+                  {loading ? <Spinner /> : 'ADD COURSE'}
                 </Button>
               </Stack>
             </form>

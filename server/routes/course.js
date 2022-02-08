@@ -1,5 +1,11 @@
 import express from 'express';
-import { addCourse, getAllCourse, getACourse } from '../controllers/course';
+import {
+  addCourse,
+  getAllCourse,
+  getACourse,
+  completeCourse,
+  incompleteCourse,
+} from '../controllers/course';
 import { requireSignin } from '../middleware';
 
 const router = express.Router();
@@ -8,4 +14,7 @@ router.post('/addcourse', requireSignin, addCourse);
 router.get('/getallcourse', getAllCourse);
 router.get('/course/:id', getACourse);
 
+// mark complete or incomplete course
+router.post('/mark-completed', requireSignin, completeCourse);
+router.post('/mark-incompleted', requireSignin, incompleteCourse);
 module.exports = router;
