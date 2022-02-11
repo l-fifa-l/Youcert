@@ -1,4 +1,5 @@
 import Course from '../models/course';
+import Completed from '../models/oneCompleted';
 
 //!Add a course
 export const addCourse = async (req, res) => {
@@ -75,7 +76,7 @@ export const completeCourse = async (req, res) => {
         user: req.user._id,
         course: courseId,
       }).exec();
-      res.json({ ok: true });
+      // res.json({ ok: true });
     } else {
       //create
       const create = await new Completed({
@@ -94,11 +95,33 @@ export const incompleteCourse = async (req, res) => {
   try {
     const { courseId } = req.body;
 
-    const updated = await Completed.findOneAndUpdate({
+    const updated = await Completed.findOneAndDelete({
       user: req.user._id,
       course: courseId,
     }).exec();
     res.json({ ok: true });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// get completed courses
+export const completedCourse = async (req, res) => {
+  try {
+    const { courseId } = req.body;
+    //if user with that course has allready completed
+    const existing = await Completed.findOne({
+      user: req.user._id,
+      course: courseId,
+    }).exec();
+    if (existing) {
+      res.json(true);
+      console.log('course exists');
+    } else {
+      //create
+      res.json(false);
+      console.log('course does exists');
+    }
   } catch (error) {
     console.log(error);
   }
