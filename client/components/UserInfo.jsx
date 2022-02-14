@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Heading,
   Avatar,
@@ -12,12 +12,12 @@ import {
   Stack,
   Button,
   useColorModeValue,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export default function UserInfo() {
   return (
     <box>
-      <Center></Center>
+      <Center>hello</Center>
     </box>
   );
 }
