@@ -82,7 +82,10 @@ export default function index({ courses }) {
                       >
                         {course.genre}
                       </chakra.span>
-                      <NextLink href={`learn/${course._id}`}>
+                      <NextLink
+                        // as={`learn/${course.slug}`}
+                        href={`learn/${course._id}`}
+                      >
                         <Link
                           display="block"
                           color={useColorModeValue('gray.800', 'white')}

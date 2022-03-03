@@ -1,5 +1,6 @@
 import Course from '../models/course';
 import Completed from '../models/oneCompleted';
+import Certificate from '../models/certificate';
 
 //!Add a course
 export const addCourse = async (req, res) => {
@@ -49,7 +50,6 @@ export const getACourse = async (req, res) => {
   Course.findById(req.params.id)
     .then((course) => {
       res.json(course);
-      console.log(course);
     })
     .catch((err) => res.status(400).json('Error: ' + err));
 };
@@ -61,7 +61,7 @@ export const getAllCourse = async (req, res) => {
     .catch((err) => res.status(400).json('Error: ' + err));
 };
 
-// complete a course function
+//! complete a course function
 export const completeCourse = async (req, res) => {
   try {
     const { courseId } = req.body;
@@ -90,7 +90,7 @@ export const completeCourse = async (req, res) => {
   }
 };
 
-// Incomplete course function
+//! Incomplete course function
 export const incompleteCourse = async (req, res) => {
   try {
     const { courseId } = req.body;
@@ -105,7 +105,7 @@ export const incompleteCourse = async (req, res) => {
   }
 };
 
-// get completed courses
+//! get completed courses
 export const completedCourse = async (req, res) => {
   try {
     const { courseId } = req.body;
@@ -114,6 +114,7 @@ export const completedCourse = async (req, res) => {
       user: req.user._id,
       course: courseId,
     }).exec();
+    console.log(existing);
     if (existing) {
       res.json(true);
       console.log('course exists');
@@ -122,6 +123,34 @@ export const completedCourse = async (req, res) => {
       res.json(false);
       console.log('course does exists');
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! post certificate
+export const postCertificate = async (req, res) => {
+  try {
+    console.log('certificate data', req.body);
+    const { courseData, user } = req.body;
+
+    //register
+    const certificate = new Certificate({
+      user,
+    });
+
+    await certificate.save();
+    console.log('saved certificate', certificate);
+    return res.json({ ok: true });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//! get certificate
+export const getCertificate = async (req, res) => {
+  try {
+    console.log('certificate', req.body);
   } catch (error) {
     console.log(error);
   }

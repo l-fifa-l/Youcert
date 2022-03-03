@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Head from 'next/head';
 import {
   Flex,
@@ -18,10 +18,14 @@ import {
 import Navbar from '../../components/Navbar';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import NextLink from 'next/link';
+import { Context } from '../../context';
 
 const Course = ({ courseData }) => {
   const [courseCompleted, setCourseCompleted] = useState(false);
   const router = useRouter();
+  const { state } = useContext(Context);
+  const { user } = state;
 
   useEffect(() => {
     loadCompletedCourses();
@@ -58,11 +62,25 @@ const Course = ({ courseData }) => {
   // mark course incomplete function
   const incomplete = async () => {
     try {
-      const { data } = await axios.post(`/api/mark-incompleted`, {
-        courseId: courseData._id,
-      });
+      const { data } = await axios.post(`/api/mark-incompleted`, {});
       setCourseCompleted(false);
     } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // create a course
+  const createCertificate = async () => {
+    console.log('try');
+    try {
+      if (courseCompleted == true) {
+        const { data } = await axios.post(`/api/postCertificate`, {
+          courseData: courseData,
+          user: user,
+        });
+      }
+    } catch (error) {
+      console.log('catch');
       console.log(error);
     }
   };
@@ -147,9 +165,11 @@ const Course = ({ courseData }) => {
               </Box>
               <Spacer />
               <Box p="2">
-                <Button colorScheme="teal" mr="0">
-                  Claim Certificate
-                </Button>
+                <NextLink href={`/${user.name}/certificate/${courseData._id}`}>
+                  <Button colorScheme="teal" mr="0" onClick={createCertificate}>
+                    Claim Certificate
+                  </Button>
+                </NextLink>
               </Box>
             </Flex>
             {/* END enroll and claim certificate */}
@@ -177,9 +197,8 @@ const Course = ({ courseData }) => {
   );
 };
 
-export async function getServerSideProps({ query, resolvedUrl }) {
+export async function getServerSideProps({ query }) {
   const { data } = await axios.get(`${process.env.API}/course/${query.course}`);
-  resolvedUrl = data.title;
   return {
     props: { courseData: data },
   };
