@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react';
-import Head from 'next/head';
 import {
   Flex,
   Button,
@@ -69,18 +68,18 @@ const Course = ({ courseData }) => {
     }
   };
 
-  // create a course
+  // create a course certificate
   const createCertificate = async () => {
-    console.log('try');
     try {
-      if (courseCompleted == true) {
-        const { data } = await axios.post(`/api/postCertificate`, {
-          courseData: courseData,
-          user: user,
-        });
+      const { data } = await axios.post(`/api/getCertificate`, {
+        courseId: courseData._id,
+      });
+      if (data === true) {
+        console.log('if', data);
+        setCourseCompleted(true);
       }
+      console.log('cerificate', data);
     } catch (error) {
-      console.log('catch');
       console.log(error);
     }
   };
@@ -151,6 +150,7 @@ const Course = ({ courseData }) => {
             </Flex>
             {/* END Course Details */}
             {/* enroll and claim certificate */}
+
             <Flex mt={3}>
               <Box p="2">
                 {!courseCompleted ? (
@@ -165,11 +165,19 @@ const Course = ({ courseData }) => {
               </Box>
               <Spacer />
               <Box p="2">
-                <NextLink href={`/${user.name}/certificate/${courseData._id}`}>
-                  <Button colorScheme="teal" mr="0" onClick={createCertificate}>
-                    Claim Certificate
-                  </Button>
-                </NextLink>
+                {user ? (
+                  <NextLink
+                    href={`/${user.name}/certificate/${courseData._id}`}
+                  >
+                    <Button
+                      colorScheme="teal"
+                      mr="0"
+                      onClick={createCertificate}
+                    >
+                      Claim Certificate
+                    </Button>
+                  </NextLink>
+                ) : null}
               </Box>
             </Flex>
             {/* END enroll and claim certificate */}

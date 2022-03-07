@@ -6,7 +6,7 @@ import {
   completeCourse,
   incompleteCourse,
   completedCourse,
-  postCertificate,
+  // postCertificate,
   getCertificate,
 } from '../controllers/course';
 import { requireSignin } from '../middleware';
@@ -23,6 +23,6 @@ router.post('/mark-incompleted', requireSignin, incompleteCourse);
 router.post('/completed-course', requireSignin, completedCourse);
 
 // certificate
-router.post('/postCertificate', requireSignin, postCertificate);
-router.get('/getCertificate/:id', requireSignin, getCertificate);
+// router.post('/postCertificate', requireSignin, postCertificate);
+router.post('/getCertificate', requireSignin, getCertificate);
 module.exports = router;

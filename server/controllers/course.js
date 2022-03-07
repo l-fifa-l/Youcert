@@ -128,29 +128,42 @@ export const completedCourse = async (req, res) => {
   }
 };
 
-//! post certificate
-export const postCertificate = async (req, res) => {
-  try {
-    console.log('certificate data', req.body);
-    const { courseData, user } = req.body;
+// //! post certificate
+// export const postCertificate = async (req, res) => {
+//   try {
+//     let { courseData, user } = req.body;
 
-    //register
-    const certificate = new Certificate({
-      user,
-    });
+//     const certificate = new Certificate({
+//       courseData,
+//       user,
+//     });
 
-    await certificate.save();
-    console.log('saved certificate', certificate);
-    return res.json({ ok: true });
-  } catch (error) {
-    console.log(error);
-  }
-};
+//     console.log('saved certificate', certificate);
+//     await certificate.save();
+//     return res.json({ ok: true });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 //! get certificate
 export const getCertificate = async (req, res) => {
   try {
-    console.log('certificate', req.body);
+    const { courseId } = req.body;
+    //if user with that course has allready completed
+    const existing = await Completed.findOne({
+      user: req.user._id,
+      course: courseId,
+    }).exec();
+    console.log(existing);
+    if (existing) {
+      res.json(existing);
+      console.log('certificate does exists');
+    } else {
+      //create
+      res.json(false);
+      console.log('certificate not does exists');
+    }
   } catch (error) {
     console.log(error);
   }

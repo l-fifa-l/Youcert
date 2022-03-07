@@ -26,13 +26,39 @@ export default function Certificate() {
   const topBg = useColorModeValue('gray.100', 'gray.700');
   const bottomBg = useColorModeValue('white', 'gray.800');
   const router = useRouter();
+  const course = router.query.certificate;
+  const [certificate, setCertificate] = useState('');
+  const [courseD, setCourseD] = useState('');
 
   const { state } = useContext(Context);
   const { user } = state;
 
   useEffect(() => {
-    // createCertificate();
+    createCertificate();
+    courseData();
   }, [user]);
+
+  const createCertificate = async () => {
+    try {
+      const { data } = await axios.post(`/api/getCertificate`, {
+        courseId: course,
+      });
+      setCertificate(data);
+      console.log('cerificate', data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const courseData = async () => {
+    try {
+      const { data } = await axios.get(`/api/course/${course}`);
+      console.log('coursedata', data);
+      setCourseD(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -78,28 +104,13 @@ export default function Certificate() {
               >
                 <Stack spacing={8} p="45px" flex="0.7">
                   <Text fontSize="3xl" fontWeight="bold" lineHeight="tight">
-                    Name of the Course
+                    {courseD.title}
                   </Text>
                   <chakra.p
                     fontSize={['sm', , 'md']}
                     color={useColorModeValue('gray.600', 'gray.400')}
                   >
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit.
+                    {courseD.description}
                   </chakra.p>
                 </Stack>
                 <Stack
@@ -119,7 +130,7 @@ export default function Certificate() {
                     fontWeight={['bold', , 'extrabold']}
                     lineHeight="tight"
                   >
-                    NAME
+                    {user.name}
                   </Flex>
                   <Text fontSize="xl" fontWeight="semibold">
                     By
