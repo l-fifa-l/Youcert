@@ -21,7 +21,7 @@ import NextLink from 'next/link';
 import { Context } from '../../context';
 
 const Course = ({ courseData }) => {
-  const [courseCompleted, setCourseCompleted] = useState(false);
+  const [courseCompleted, setCourseCompleted] = useState();
   const router = useRouter();
   const { state } = useContext(Context);
   const { user } = state;
@@ -52,6 +52,7 @@ const Course = ({ courseData }) => {
         courseId: courseData._id,
       });
       setCourseCompleted(true);
+      console.log(courseCompleted);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -63,6 +64,7 @@ const Course = ({ courseData }) => {
     try {
       const { data } = await axios.post(`/api/mark-incompleted`, {});
       setCourseCompleted(false);
+      console.log(courseCompleted);
     } catch (error) {
       console.log(error);
     }
@@ -153,7 +155,7 @@ const Course = ({ courseData }) => {
 
             <Flex mt={3}>
               <Box p="2">
-                {!courseCompleted ? (
+                {courseCompleted == false ? (
                   <Button colorScheme="teal" mr="0" onClick={complete}>
                     Mark Complete
                   </Button>
