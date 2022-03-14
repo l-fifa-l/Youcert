@@ -1,4 +1,6 @@
 {
+  "homepage": "https://youcert.vercel.app",
+  "private": true,
   "name": "client",
   "version": "1.0.0",
   "description": "",

@@ -22,29 +22,26 @@ const options = {
   format: [16, 12],
 };
 
-export default function Certificate() {
+const Certificate = ({ certificateData }) => {
   const topBg = useColorModeValue('gray.100', 'gray.700');
   const bottomBg = useColorModeValue('white', 'gray.800');
-  const router = useRouter();
-  const course = router.query.certificate;
-  const [certificate, setCertificate] = useState('');
+  let [certificate, setCertificate] = useState('');
   const [courseD, setCourseD] = useState('');
-
-  const { state } = useContext(Context);
-  const { user } = state;
 
   useEffect(() => {
     createCertificate();
     courseData();
-  }, [user]);
+  }, [certificateData]);
+
+  const { state } = useContext(Context);
+  const { user } = state;
 
   const createCertificate = async () => {
     try {
       const { data } = await axios.post(`/api/getCertificate`, {
-        courseId: course,
+        courseId: certificateData._id,
       });
       setCertificate(data);
-      console.log('cerificate', data);
     } catch (error) {
       console.log(error);
     }
@@ -52,14 +49,12 @@ export default function Certificate() {
 
   const courseData = async () => {
     try {
-      const { data } = await axios.get(`/api/course/${course}`);
-      console.log('coursedata', data);
+      const { data } = await axios.get(`/api/course/${certificateData._id}`);
       setCourseD(data);
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <>
       <Flex
@@ -104,13 +99,13 @@ export default function Certificate() {
               >
                 <Stack spacing={8} p="45px" flex="0.7">
                   <Text fontSize="3xl" fontWeight="bold" lineHeight="tight">
-                    {courseD.title}
+                    {certificateData.title}
                   </Text>
                   <chakra.p
                     fontSize={['sm', , 'md']}
                     color={useColorModeValue('gray.600', 'gray.400')}
                   >
-                    {courseD.description}
+                    {certificateData.description}
                   </chakra.p>
                 </Stack>
                 <Stack
@@ -130,7 +125,7 @@ export default function Certificate() {
                     fontWeight={['bold', , 'extrabold']}
                     lineHeight="tight"
                   >
-                    {user.name}
+                    {user ? user.name : ''}
                   </Flex>
                   <Text fontSize="xl" fontWeight="semibold">
                     By
@@ -169,4 +164,15 @@ export default function Certificate() {
       </Box>
     </>
   );
+};
+
+export async function getServerSideProps({ query }) {
+  const { data } = await axios.get(
+    `${process.env.API}/course/${query.certificate}`
+  );
+  return {
+    props: { certificateData: data },
+  };
 }
+
+export default Certificate;

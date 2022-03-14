@@ -36,10 +36,8 @@ const Course = ({ courseData }) => {
         courseId: courseData._id,
       });
       if (data === true) {
-        console.log('if', data);
         setCourseCompleted(true);
       }
-      console.log('existing', data);
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +78,6 @@ const Course = ({ courseData }) => {
         console.log('if', data);
         setCourseCompleted(true);
       }
-      console.log('cerificate', data);
     } catch (error) {
       console.log(error);
     }
@@ -168,9 +165,7 @@ const Course = ({ courseData }) => {
               <Spacer />
               <Box p="2">
                 {user && courseCompleted ? (
-                  <NextLink
-                    href={`/${user.name}/certificate/${courseData._id}`}
-                  >
+                  <NextLink href={`/${user._id}/certificate/${courseData._id}`}>
                     <Button
                       colorScheme="teal"
                       mr="0"
