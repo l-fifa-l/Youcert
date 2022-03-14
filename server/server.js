@@ -1,11 +1,11 @@
-import express from "express";
-import cors from "cors";
-import { readdirSync } from "fs";
-const morgan = require("morgan");
-import mongoose from "mongoose";
-const dotenv = require("dotenv");
-import csrf from "csurf";
-import cookieParser from "cookie-parser";
+import express from 'express';
+import cors from 'cors';
+import { readdirSync } from 'fs';
+const morgan = require('morgan');
+import mongoose from 'mongoose';
+const dotenv = require('dotenv');
+import csrf from 'csurf';
+import cookieParser from 'cookie-parser';
 dotenv.config();
 
 const csrfProtection = csrf({ cookie: true });
@@ -15,7 +15,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 
 // database connection
 mongoose
@@ -23,17 +23,18 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false,
   })
-  .then(() => console.log("DB Connected"))
-  .catch((err) => console.log("DB Connection rror"));
+  .then(() => console.log('DB Connected'))
+  .catch((err) => console.log('DB Connection rror'));
 
 //routes
-readdirSync("./routes").map((r) => app.use("/api", require(`./routes/${r}`)));
+readdirSync('./routes').map((r) => app.use('/api', require(`./routes/${r}`)));
 
 //csrf
 app.use(csrfProtection);
 
-app.get("/api/csrf-token", (req, res) => {
+app.get('/api/csrf-token', (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
 
