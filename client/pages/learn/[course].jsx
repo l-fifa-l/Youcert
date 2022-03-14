@@ -155,7 +155,7 @@ const Course = ({ courseData }) => {
 
             <Flex mt={3}>
               <Box p="2">
-                {courseCompleted == false ? (
+                {!courseCompleted ? (
                   <Button colorScheme="teal" mr="0" onClick={complete}>
                     Mark Complete
                   </Button>
@@ -167,7 +167,7 @@ const Course = ({ courseData }) => {
               </Box>
               <Spacer />
               <Box p="2">
-                {user ? (
+                {user && courseCompleted ? (
                   <NextLink
                     href={`/${user.name}/certificate/${courseData._id}`}
                   >

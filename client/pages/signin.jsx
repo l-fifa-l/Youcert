@@ -1,8 +1,8 @@
-import { useState, useContext, useEffect } from "react";
-import axios from "axios";
-import NextLink from "next/link";
-import { Context } from "../context";
-import { useRouter } from "next/router";
+import { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
+import NextLink from 'next/link';
+import { Context } from '../context';
+import { useRouter } from 'next/router';
 import {
   Flex,
   Box,
@@ -17,11 +17,14 @@ import {
   Button,
   Heading,
   useColorModeValue,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export default function Navbar() {
-  const [email, setEmail] = useState("starktestic@gmail.com");
-  const [password, setPassword] = useState("123456");
+  //testing ID email starktestic@gmail.com
+  const [email, setEmail] = useState('');
+  //testing ID password 123456
+  const [password, setPassword] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -36,7 +39,7 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    if (user !== null) router.push("/");
+    if (user !== null) router.push('/');
   }, [user]);
 
   const handleSubmit = async (e) => {
@@ -50,14 +53,14 @@ export default function Navbar() {
       });
       // console.log("REGISTER RESPONSE", data);
       dispatch({
-        type: "LOGIN",
+        type: 'LOGIN',
         payload: data,
       });
 
       // save in the user in local storage
-      window.localStorage.setItem("user", JSON.stringify(data));
+      window.localStorage.setItem('user', JSON.stringify(data));
       //redirect
-      router.push("/");
+      router.push('/');
       setLoading(false);
     } catch (error) {
       setError(true);
@@ -67,19 +70,19 @@ export default function Navbar() {
 
   return (
     <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      minH={'100vh'}
+      align={'center'}
+      justify={'center'}
+      bg={useColorModeValue('gray.50', 'gray.800')}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Sign in to your Account</Heading>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'}>Sign in to your Account</Heading>
         </Stack>
         <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
+          rounded={'lg'}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'lg'}
           p={8}
         >
           <Stack spacing={4}>
@@ -106,15 +109,15 @@ export default function Navbar() {
               </FormControl>
               <Stack pt={3} spacing={5}>
                 <Stack
-                  direction={{ base: "column", sm: "row" }}
-                  align={"start"}
-                  justify={"space-between"}
+                  direction={{ base: 'column', sm: 'row' }}
+                  align={'start'}
+                  justify={'space-between'}
                 >
                   <NextLink href="signup">
-                    <Link color={"#7820c5"}>Sign up for an Account</Link>
+                    <Link color={'#7820c5'}>Sign up for an Account</Link>
                   </NextLink>
                   <NextLink href="forgot-password">
-                    <Link color={"#7820c5"}>Forgot password?</Link>
+                    <Link color={'#7820c5'}>Forgot password?</Link>
                   </NextLink>
                 </Stack>
                 <Stack>
@@ -126,15 +129,15 @@ export default function Navbar() {
                   )}
                 </Stack>
                 <Button
-                  bg={"#7820c5"}
-                  color={"white"}
-                  type={"submit"}
+                  bg={'#7820c5'}
+                  color={'white'}
+                  type={'submit'}
                   disabled={!email || loading}
                   _hover={{
-                    bg: "#5e199a",
+                    bg: '#5e199a',
                   }}
                 >
-                  {loading ? <Spinner /> : "Sign in"}
+                  {loading ? <Spinner /> : 'Sign in'}
                 </Button>
               </Stack>
             </form>
