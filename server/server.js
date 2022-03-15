@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: __dirname + '/.env' });
+}
+
 import express from 'express';
 import cors from 'cors';
 import { readdirSync } from 'fs';
@@ -18,9 +22,6 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 
 // database connection
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({ path: __dirname + '/.env' });
-}
 
 mongoose
   .connect(process.env.MONGO_URI, {
@@ -49,8 +50,10 @@ app.listen(port, () => {
 });
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client', 'build')));
+  app.use(express.static(path.join(__dirname, '../client', './next/build')));
   app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client', 'build', 'index.html'));
+    res.sendFile(
+      path.join(__dirname, '../client', './next/server', 'index.js')
+    );
   });
 }

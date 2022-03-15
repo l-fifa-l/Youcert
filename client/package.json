@@ -1,7 +1,7 @@
 {
   "homepage": "https://youcert.vercel.app",
   "private": true,
-  "name": "client",
+  "name": "youcert",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
