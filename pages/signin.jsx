@@ -124,7 +124,7 @@ export default function Navbar() {
                   {error && (
                     <Alert status="error">
                       <AlertIcon />
-                      Email and Password does not match.
+                      {error}
                     </Alert>
                   )}
                 </Stack>
