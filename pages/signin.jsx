@@ -47,7 +47,7 @@ export default function Navbar() {
     //console.log({ name, password, email });
     try {
       setLoading(true);
-      const { data } = await axios.post(`process.env.API/login`, {
+      const { data } = await axios.post(`process.env.NEXT_PUBLIC_API/login`, {
         email,
         password,
       });
