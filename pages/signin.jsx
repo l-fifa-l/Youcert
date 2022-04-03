@@ -47,7 +47,7 @@ export default function Navbar() {
     //console.log({ name, password, email });
     try {
       setLoading(true);
-      const { data } = await axios.post(`/api/login`, {
+      const { data } = await axios.post(`/login`, {
         email,
         password,
       });
