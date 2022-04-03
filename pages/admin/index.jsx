@@ -54,16 +54,19 @@ export default function addCourse() {
     console.log('adding course');
     try {
       setLoading(true);
-      const { data } = await axios.post(`/api/addcourse`, {
-        title,
-        videoId,
-        playlistId,
-        thumbnail,
-        creator,
-        description,
-        tags,
-        slug,
-      });
+      const { data } = await axios.post(
+        `https://youcert-server.herokuapp.com/api/addcourse`,
+        {
+          title,
+          videoId,
+          playlistId,
+          thumbnail,
+          creator,
+          description,
+          tags,
+          slug,
+        }
+      );
       router.push('/signin');
     } catch (error) {
       setError(true);

@@ -38,9 +38,12 @@ const Certificate = ({ certificateData }) => {
 
   const createCertificate = async () => {
     try {
-      const { data } = await axios.post(`/api/getCertificate`, {
-        courseId: certificateData._id,
-      });
+      const { data } = await axios.post(
+        `https://youcert-server.herokuapp.com/api/getCertificate`,
+        {
+          courseId: certificateData._id,
+        }
+      );
       setCertificate(data);
     } catch (error) {
       console.log(error);
@@ -49,7 +52,9 @@ const Certificate = ({ certificateData }) => {
 
   const courseData = async () => {
     try {
-      const { data } = await axios.get(`/api/course/${certificateData._id}`);
+      const { data } = await axios.get(
+        `https://youcert-server.herokuapp.com/api/course/${certificateData._id}`
+      );
       setCourseD(data);
     } catch (error) {
       console.log(error);

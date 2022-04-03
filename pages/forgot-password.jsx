@@ -1,7 +1,7 @@
-import { useState, useContext, useEffect } from "react";
-import axios from "axios";
-import { Context } from "../context";
-import { useRouter } from "next/router";
+import { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
+import { Context } from '../context';
+import { useRouter } from 'next/router';
 import {
   Flex,
   Box,
@@ -15,16 +15,16 @@ import {
   Button,
   Heading,
   useColorModeValue,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [success, setSuccess] = useState(false);
-  const [code, setCode] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+  const [code, setCode] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [Message, setMessage] = useState("false");
+  const [Message, setMessage] = useState('false');
 
   //context
   const {
@@ -35,16 +35,19 @@ export default function ForgotPassword() {
 
   //redirect is user is logged in
   useEffect(() => {
-    if (user !== null) router.push("/");
+    if (user !== null) router.push('/');
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/forgot-password", { email });
+      const { data } = await axios.post(
+        'https://youcert-server.herokuapp.com/api/forgot-password',
+        { email }
+      );
       setSuccess(true);
       setLoading(false);
-      setMessage("Check your email for the secret code");
+      setMessage('Check your email for the secret code');
       setError(true);
     } catch (err) {
       setLoading(false);
@@ -59,14 +62,17 @@ export default function ForgotPassword() {
     // return;
     try {
       setLoading(true);
-      const { data } = await axios.post("/api/reset-password", {
-        email,
-        code,
-        newPassword,
-      });
-      setEmail("");
-      setCode("");
-      setNewPassword("");
+      const { data } = await axios.post(
+        'https://youcert-server.herokuapp.com/api/reset-password',
+        {
+          email,
+          code,
+          newPassword,
+        }
+      );
+      setEmail('');
+      setCode('');
+      setNewPassword('');
       setLoading(false);
       // toast("Great! Now login with your new Password");
     } catch (err) {
@@ -77,19 +83,19 @@ export default function ForgotPassword() {
 
   return (
     <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      minH={'100vh'}
+      align={'center'}
+      justify={'center'}
+      bg={useColorModeValue('gray.50', 'gray.800')}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Reset Your Password</Heading>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'}>Reset Your Password</Heading>
         </Stack>
         <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
+          rounded={'lg'}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'lg'}
           p={8}
         >
           <Stack spacing={4}>
@@ -138,15 +144,15 @@ export default function ForgotPassword() {
                 )}
 
                 <Button
-                  bg={"#7820c5"}
-                  color={"white"}
-                  type={"submit"}
+                  bg={'#7820c5'}
+                  color={'white'}
+                  type={'submit'}
                   disabled={!email || loading}
                   _hover={{
-                    bg: "#5e199a",
+                    bg: '#5e199a',
                   }}
                 >
-                  {loading ? <Spinner /> : "Submit"}
+                  {loading ? <Spinner /> : 'Submit'}
                 </Button>
               </Stack>
             </form>
