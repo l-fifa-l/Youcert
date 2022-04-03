@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
-import NextLink from 'next/link';
-import axios from 'axios';
+import { useState, useEffect, useContext } from "react";
+import NextLink from "next/link";
+import axios from "axios";
 import {
   Flex,
   Alert,
@@ -15,14 +15,14 @@ import {
   Button,
   Heading,
   useColorModeValue,
-} from '@chakra-ui/react';
-import { Context } from '../context';
-import { useRouter } from 'next/router';
+} from "@chakra-ui/react";
+import { Context } from "../context";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -37,7 +37,7 @@ export default function Navbar() {
   const router = useRouter();
 
   useEffect(() => {
-    if (user !== null) router.push('/');
+    if (user !== null) router.push("/");
   }, [user]);
 
   const handleSubmit = async (e) => {
@@ -45,21 +45,18 @@ export default function Navbar() {
     //console.log({ name, password, email });
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/register`,
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      const { data } = await axios.post(`/api/register`, {
+        name,
+        email,
+        password,
+      });
       // console.log("REGISTER RESPONSE", data);
       // toast.success("Registration Successfull. Please Login.");
-      setName('');
-      setEmail('');
-      setPassword('');
+      setName("");
+      setEmail("");
+      setPassword("");
       setLoading(false);
-      router.push('/signin');
+      router.push("/signin");
     } catch (error) {
       setError(true);
       setLoading(false);
@@ -68,19 +65,19 @@ export default function Navbar() {
 
   return (
     <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Sign up for an Account</Heading>
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>Sign up for an Account</Heading>
         </Stack>
         <Box
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
           p={8}
         >
           <Stack spacing={4}>
@@ -117,12 +114,12 @@ export default function Navbar() {
               </FormControl>
               <Stack pt={3} spacing={5}>
                 <Box
-                  direction={{ base: 'column', sm: 'row' }}
+                  direction={{ base: "column", sm: "row" }}
                   align="center"
-                  justify={'space-between'}
+                  justify={"space-between"}
                 >
                   <NextLink href="signin">
-                    <Link color={'#7820c5'}>Sign in Instead!</Link>
+                    <Link color={"#7820c5"}>Sign in Instead!</Link>
                   </NextLink>
                 </Box>
 
@@ -134,15 +131,15 @@ export default function Navbar() {
                 )}
 
                 <Button
-                  bg={'#7820c5'}
-                  color={'white'}
-                  type={'submit'}
+                  bg={"#7820c5"}
+                  color={"white"}
+                  type={"submit"}
                   disabled={!name || !email || !password || loading}
                   _hover={{
-                    bg: '#5e199a',
+                    bg: "#5e199a",
                   }}
                 >
-                  {loading ? <Spinner /> : 'Sign up'}
+                  {loading ? <Spinner /> : "Sign up"}
                 </Button>
               </Stack>
             </form>

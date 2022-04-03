@@ -32,12 +32,9 @@ const Course = ({ courseData }) => {
 
   const loadCompletedCourses = async () => {
     try {
-      const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/completed-course`,
-        {
-          courseId: courseData._id,
-        }
-      );
+      const { data } = await axios.post(`/api/completed-course`, {
+        courseId: courseData._id,
+      });
       if (data === true) {
         setCourseCompleted(true);
       }
@@ -49,12 +46,9 @@ const Course = ({ courseData }) => {
   // mark course complete function
   const complete = async () => {
     try {
-      const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/mark-completed`,
-        {
-          courseId: courseData._id,
-        }
-      );
+      const { data } = await axios.post(`/api/mark-completed`, {
+        courseId: courseData._id,
+      });
       setCourseCompleted(true);
       console.log(courseCompleted);
       console.log(data);
@@ -66,10 +60,7 @@ const Course = ({ courseData }) => {
   // mark course incomplete function
   const incomplete = async () => {
     try {
-      const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/mark-incompleted`,
-        {}
-      );
+      const { data } = await axios.post(`/api/mark-incompleted`, {});
       setCourseCompleted(false);
       console.log(courseCompleted);
     } catch (error) {
@@ -80,12 +71,9 @@ const Course = ({ courseData }) => {
   // create a course certificate
   const createCertificate = async () => {
     try {
-      const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/getCertificate`,
-        {
-          courseId: courseData._id,
-        }
-      );
+      const { data } = await axios.post(`/api/getCertificate`, {
+        courseId: courseData._id,
+      });
       if (data === true) {
         console.log('if', data);
         setCourseCompleted(true);
