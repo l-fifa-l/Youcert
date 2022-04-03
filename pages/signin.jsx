@@ -47,7 +47,7 @@ export default function Navbar() {
     //console.log({ name, password, email });
     try {
       setLoading(true);
-      const { data } = await axios.post(`process.env.NEXT_PUBLIC_API/login`, {
+      const { data } = await axios.post(`/api/login`, {
         email,
         password,
       });
@@ -124,7 +124,7 @@ export default function Navbar() {
                   {error && (
                     <Alert status="error">
                       <AlertIcon />
-                      Email and Password does not match.
+                      {error}
                     </Alert>
                   )}
                 </Stack>
