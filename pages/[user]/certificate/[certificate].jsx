@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { Context } from '../../../context';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const ref = React.createRef();
 const options = {

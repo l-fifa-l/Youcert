@@ -44,10 +44,10 @@ export default function addCourse() {
   const router = useRouter();
 
   //!To Check Weather The User Is Admin Or Not(if not subscriber)
-  useEffect(() => {
-    if (!(user && user.role && user.role.includes('Subscribe')))
-      router.push('/');
-  }, [user]);
+  // useEffect(() => {
+  //   if (!(user && user.role && user.role.includes("Subscribe")))
+  //     router.push("/");
+  // }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
