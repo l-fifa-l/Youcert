@@ -47,10 +47,13 @@ export default function Navbar() {
     //console.log({ name, password, email });
     try {
       setLoading(true);
-      const { data } = await axios.post(`/api/login`, {
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        `https://youcert-server.herokuapp.com/api/login`,
+        {
+          email,
+          password,
+        }
+      );
       // console.log("REGISTER RESPONSE", data);
       dispatch({
         type: 'LOGIN',
