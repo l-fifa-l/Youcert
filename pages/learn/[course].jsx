@@ -32,12 +32,10 @@ const Course = ({ courseData }) => {
 
   const loadCompletedCourses = async () => {
     try {
-      console.log(user);
       const { data } = await axios.post(
         `https://youcert-server.herokuapp.com/api/completed-course`,
         {
           courseId: courseData._id,
-          user,
         }
       );
       if (data === true) {
