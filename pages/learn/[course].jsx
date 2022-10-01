@@ -33,7 +33,7 @@ const Course = ({ courseData }) => {
   const loadCompletedCourses = async () => {
     try {
       const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/completed-course`,
+        `${process.env.NEXT_PUBLIC_API}/completed-course`,
         {
           courseId: courseData._id,
         }
@@ -50,7 +50,7 @@ const Course = ({ courseData }) => {
   const complete = async () => {
     try {
       const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/mark-completed`,
+        `${process.env.NEXT_PUBLIC_API}/mark-completed`,
         {
           courseId: courseData._id,
         }
@@ -67,7 +67,7 @@ const Course = ({ courseData }) => {
   const incomplete = async () => {
     try {
       const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/mark-incompleted`,
+        `${process.env.NEXT_PUBLIC_API}/mark-incompleted`,
         {}
       );
       setCourseCompleted(false);
@@ -81,7 +81,7 @@ const Course = ({ courseData }) => {
   const createCertificate = async () => {
     try {
       const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/getCertificate`,
+        `${process.env.NEXT_PUBLIC_API}/getCertificate`,
         {
           courseId: courseData._id,
         }

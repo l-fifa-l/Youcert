@@ -55,7 +55,7 @@ export default function addCourse() {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/addcourse`,
+        `${process.env.NEXT_PUBLIC_API}/addcourse`,
         {
           title,
           videoId,

@@ -39,7 +39,7 @@ const Certificate = ({ certificateData }) => {
   const createCertificate = async () => {
     try {
       const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/getCertificate`,
+        `${process.env.NEXT_PUBLIC_API}/getCertificate`,
         {
           courseId: certificateData._id,
         }

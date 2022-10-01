@@ -46,7 +46,7 @@ export default function Navbar() {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        `https://youcert-server.herokuapp.com/api/register`,
+        `${process.env.NEXT_PUBLIC_API}/register`,
         {
           name,
           email,

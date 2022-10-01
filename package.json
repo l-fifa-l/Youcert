@@ -1,11 +1,9 @@
 {
-  "homepage": "https://youcert.vercel.app",
   "private": true,
   "name": "youcert",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "proxy": "https://youcert-server.herokuapp.com/",
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
